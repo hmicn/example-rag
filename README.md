@@ -16,6 +16,7 @@ LLM Ollama rédige la réponse.
 | `rag.py`           | Code partagé par les scripts : connexion à ChromaDB, calcul des embeddings et appel du LLM via Ollama. |
 | `config.py`        | Tous les réglages (modèles, chemins, taille des morceaux, nombre de passages), modifiables par variables d'environnement. |
 | `requirements.txt` | Dépendances Python : FastAPI, Uvicorn, Ollama, ChromaDB. |
+| `benchmark_llm.pdf` | Benchmark des modèles Ollama pour le raisonnement (poids, contexte, scores GPQA Diamond, MMLU-Pro et maths), pour choisir le LLM de `config.py`. |
 | `.gitignore`       | Exclut de git le venv, la base `chroma_db/`, les caches Python et les fichiers locaux. |
 | `chroma_db/`       | Base vectorielle créée par `ingest.py` (non versionnée). |
 
