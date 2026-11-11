@@ -12,7 +12,7 @@ EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
 
 # Base vectorielle (ChromaDB persistante sur disque)
 CHROMA_DIR = Path(os.getenv("CHROMA_DIR", BASE_DIR / "chroma_db"))
-COLLECTION_NAME = os.getenv("COLLECTION_NAME", "story")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "givaudan_sales")
 
 # Source et découpage
 STORY_PATH = Path(os.getenv("STORY_PATH", BASE_DIR / "story.txt"))

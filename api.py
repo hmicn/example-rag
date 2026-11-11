@@ -53,7 +53,11 @@ def retrieve(question: str, top_k: int) -> list[Source]:
         n_results=min(top_k, collection.count()),
     )
     return [
-        Source(chapter=meta["chapter"], text=doc, score=round(1 - dist, 4))
+        Source(
+    chapter=meta.get("chapter", meta.get("categorie", "Non renseigné")),
+    text=doc,
+    score=round(1 - dist, 4)
+)
         for doc, meta, dist in zip(result["documents"][0], result["metadatas"][0], result["distances"][0])
     ]
 
