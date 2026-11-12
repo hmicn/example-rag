@@ -1,0 +1,11 @@
+client_id,company_name,segment,country,industry,language,account_level
+CL-001,Maison Éclat,PME,France,Cosmétiques,fr,standard
+CL-002,NutriPeak Foods,ETI,France,Boissons fonctionnelles,fr,premium
+CL-003,Verde Home Care,PME,Italie,Produits ménagers,it,standard
+CL-004,Northstar Beverages,Grand compte,Allemagne,Boissons,en,strategic
+CL-005,Atelier Botanique,PME,Belgique,Parfumerie,fr,standard
+CL-006,Laiterie des Alpes,ETI,France,Produits laitiers,fr,premium
+CL-007,Lumina Laundry,Grand compte,Espagne,Détergents,es,strategic
+CL-008,Biscuiterie Ondine,PME,France,Biscuiterie,fr,standard
+CL-009,Kinetic Sports Nutrition,ETI,Pays-Bas,Nutrition sportive,en,premium
+CL-010,Casa Aurora Cosmetics,PME,Espagne,Cosmétiques,es,standard

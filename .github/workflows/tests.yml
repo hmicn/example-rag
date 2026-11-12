@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Dataset cohérent et à jour
+        run: |
+          python generate_dataset.py
+          git diff --exit-code -- data givaudan_data.txt
+      - name: Tests automatiques (sans Ollama)
+        run: python -m pytest -q

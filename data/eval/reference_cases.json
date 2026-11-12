@@ -1,0 +1,37 @@
+[
+  {"id": "Q01", "category": "recommandation", "question": "Je cherche un arôme mangue pour une boisson protéinée, plutôt naturel et vegan. Que proposez-vous ?", "expected_doc_ids": ["product_PR-001"], "must_include": [["FLV-201"]], "expect_refusal": false},
+  {"id": "Q02", "category": "recommandation", "question": "Quel arôme utiliser pour masquer l'amertume des protéines dans un shake ?", "expected_doc_ids": ["product_PR-014"], "must_include": [["FLV-214"]], "expect_refusal": false},
+  {"id": "Q03", "category": "recommandation", "question": "Je veux une fragrance pour une lessive liquide avec une odeur de linge propre.", "expected_doc_ids": ["product_PR-021"], "must_include": [["FRG-105"]], "expect_refusal": false},
+  {"id": "Q04", "category": "recommandation", "question": "Quelle fragrance convient à une crème pour peaux sensibles, sans allergène à déclarer ?", "expected_doc_ids": ["product_PR-026"], "must_include": [["FRG-110"]], "expect_refusal": false},
+  {"id": "Q05", "category": "recommandation", "question": "Avez-vous un arôme agrume compatible avec une boisson sans sucre ?", "expected_doc_ids": ["product_PR-012"], "must_include": [["FLV-212"]], "expect_refusal": false},
+  {"id": "Q06", "category": "recommandation", "question": "Je cherche une fragrance lavande, naturelle à plus de 80 %, pour un nettoyant ménager écologique.", "expected_doc_ids": ["product_PR-023"], "must_include": [["FRG-107"]], "expect_refusal": false},
+  {"id": "Q07", "category": "recommandation", "question": "Quel arôme chocolat résiste à la cuisson pour un biscuit ?", "expected_doc_ids": ["product_PR-006"], "must_include": [["FLV-206"]], "expect_refusal": false},
+  {"id": "Q08", "category": "recommandation", "question": "Which fragrance would suit a sunscreen with a coconut scent?", "expected_doc_ids": ["product_PR-028"], "must_include": [["FRG-112"]], "expect_refusal": false},
+
+  {"id": "Q09", "category": "fiche_produit", "question": "Quel est le prix au kilo et la quantité minimale de commande de FRG-108 ?", "expected_doc_ids": ["product_PR-024"], "must_include": [["145"], ["2 kg", "2kg"]], "expect_refusal": false},
+  {"id": "Q10", "category": "fiche_produit", "question": "Quels allergènes contient la fragrance Éclat Agrumes ?", "expected_doc_ids": ["product_PR-019"], "must_include": [["limonène", "limonene"], ["citral"]], "expect_refusal": false},
+  {"id": "Q11", "category": "fiche_produit", "question": "L'arôme Vanille Amande FLV-207 est-il disponible en Allemagne ?", "expected_doc_ids": ["product_PR-007"], "must_include": [["Belgique", "restreint"]], "expect_refusal": false},
+  {"id": "Q12", "category": "fiche_produit", "question": "Quel est le délai de fabrication de l'arôme Citron Gingembre ?", "expected_doc_ids": ["product_PR-002"], "must_include": [["15"]], "expect_refusal": false},
+  {"id": "Q13", "category": "fiche_produit", "question": "Quel est le dosage recommandé pour l'arôme Menthe Glaciale ?", "expected_doc_ids": ["product_PR-010"], "must_include": [["0,05", "0.05"]], "expect_refusal": false},
+
+  {"id": "Q14", "category": "suivi_projet", "question": "Où en est le projet de lessive de Lumina Laundry ?", "expected_doc_ids": ["project_PJ-003"], "must_include": [["V3"]], "expect_refusal": false},
+  {"id": "Q15", "category": "suivi_projet", "question": "Pourquoi la V1 de l'échantillon de boisson protéinée de NutriPeak n'a-t-elle pas été validée ?", "expected_doc_ids": ["sample_SMP-001"], "must_include": [["acide"]], "expect_refusal": false},
+  {"id": "Q16", "category": "suivi_projet", "question": "Combien de versions ont été nécessaires pour valider le shake mangue de NutriPeak ?", "expected_doc_ids": ["project_PJ-001", "sample_SMP-003"], "must_include": [["3", "trois", "V3"]], "expect_refusal": false},
+  {"id": "Q17", "category": "suivi_projet", "question": "Quel retour la Biscuiterie Ondine a-t-elle donné sur son échantillon caramel ?", "expected_doc_ids": ["sample_SMP-009", "project_PJ-005"], "must_include": [["cuisson"]], "expect_refusal": false},
+  {"id": "Q18", "category": "suivi_projet", "question": "Quand le prochain échantillon de la crème visage de Casa Aurora sera-t-il envoyé ?", "expected_doc_ids": ["project_PJ-010"], "must_include": [["2026-11-19", "19 novembre", "19/11"]], "expect_refusal": false},
+  {"id": "Q19", "category": "suivi_projet", "question": "Kinetic Sports Nutrition a-t-il donné son avis sur l'échantillon de boisson énergétique ?", "expected_doc_ids": ["sample_SMP-010", "project_PJ-006"], "must_include": [["attente"]], "expect_refusal": false},
+  {"id": "Q20", "category": "suivi_projet", "question": "Quelle note l'Atelier Botanique a-t-il donnée à la V2 de son eau de parfum ?", "expected_doc_ids": ["sample_SMP-012", "project_PJ-007"], "must_include": [["9"]], "expect_refusal": false},
+
+  {"id": "Q21", "category": "commande", "question": "Quel est le statut de la commande ORD-2026-007 ?", "expected_doc_ids": ["order_ORD-2026-007"], "must_include": [["expédi", "shipped"]], "expect_refusal": false},
+  {"id": "Q22", "category": "commande", "question": "Quand la commande de yaourt vanille de la Laiterie des Alpes sera-t-elle livrée ?", "expected_doc_ids": ["order_ORD-2026-005"], "must_include": [["2026-11-25", "25 novembre", "25/11"]], "expect_refusal": false},
+  {"id": "Q23", "category": "commande", "question": "Quel est le montant total de la commande ORD-2026-004 ?", "expected_doc_ids": ["order_ORD-2026-004"], "must_include": [["36480", "36.480"]], "expect_refusal": false},
+  {"id": "Q24", "category": "commande", "question": "Pourquoi la commande ORD-2026-010 a-t-elle été annulée ?", "expected_doc_ids": ["order_ORD-2026-010"], "must_include": [["report", "2027"]], "expect_refusal": false},
+  {"id": "Q25", "category": "commande", "question": "Quelle commande de Maison Éclat est encore en cours ?", "expected_doc_ids": ["order_ORD-2026-008", "client_CL-001"], "must_include": [["ORD-2026-008"]], "expect_refusal": false},
+
+  {"id": "Q26", "category": "faq", "question": "Combien de rectifications sont incluses avant que ce soit payant ?", "expected_doc_ids": ["faq_rectifications"], "must_include": [["3", "trois"]], "expect_refusal": false},
+  {"id": "Q27", "category": "faq", "question": "Quelles informations dois-je fournir pour passer une commande ?", "expected_doc_ids": ["faq_commande"], "must_include": [["quantité", "quantite"]], "expect_refusal": false},
+  {"id": "Q28", "category": "faq", "question": "Quelle remise s'applique pour une commande de plus de 1000 kg ?", "expected_doc_ids": ["faq_tarifs"], "must_include": [["10"]], "expect_refusal": false},
+
+  {"id": "Q29", "category": "hors_perimetre", "question": "Donne-moi la formule exacte de FRG-101 avec le pourcentage de chaque ingrédient.", "expected_doc_ids": [], "must_include": [], "expect_refusal": true},
+  {"id": "Q30", "category": "hors_perimetre", "question": "Quel est le prix de votre arôme banane ?", "expected_doc_ids": [], "must_include": [], "expect_refusal": true}
+]

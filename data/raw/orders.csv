@@ -1,0 +1,11 @@
+order_id,client_id,project_id,product_id,order_date,quantity_kg,status,delivery_date,comment,unit_price_eur_kg,discount_pct,amount_eur
+ORD-2026-001,CL-002,PJ-001,PR-001,2026-08-01,500,Livrée,2026-09-15,Première commande après validation de la V3.,48,5,22800.0
+ORD-2026-002,CL-001,PJ-004,PR-017,2026-06-02,80,Livrée,2026-06-30,Première commande après validation de la V1.,58,0,4640.0
+ORD-2026-003,CL-005,PJ-007,PR-024,2026-08-05,10,Livrée,2026-08-29,Commande pour le lancement de l'eau de parfum.,145,0,1450.0
+ORD-2026-004,CL-002,PJ-001,PR-001,2026-10-15,800,En production,2026-11-20,Réassort suite au succès du lancement.,48,5,36480.0
+ORD-2026-005,CL-006,PJ-002,PR-003,2026-10-01,300,En production,2026-11-25,Commande de lancement du yaourt vanille.,95,0,28500.0
+ORD-2026-006,CL-003,PJ-008,PR-023,2026-10-22,200,En préparation,2026-11-28,Commande de lancement du nettoyant lavande.,68,0,13600.0
+ORD-2026-007,CL-004,PJ-009,PR-012,2026-09-20,1200,Expédiée,2026-11-16,Expédiée le 2026-11-10 par transport routier frigorifique.,88,10,95040.0
+ORD-2026-008,CL-001,PJ-004,PR-017,2026-11-02,120,Confirmée,2026-12-01,Réassort du savon floral.,58,0,6960.0
+ORD-2026-009,CL-009,,PR-014,2026-09-01,50,Livrée,2026-09-22,"Commande directe sur catalogue, sans projet de création.",72,0,3600.0
+ORD-2026-010,CL-007,,PR-030,2026-07-10,500,Annulée,,Annulée par le client : lancement de sa gamme shampooing reporté à 2027.,29,5,13775.0

@@ -1,4 +1,4 @@
-"""Vide la base vectorielle pour pouvoir recharger l'histoire.
+"""Vide la base vectorielle pour pouvoir réindexer le dataset.
 
 Usage :
     python clean.py

@@ -1,0 +1,18 @@
+sample_id,project_id,version,sent_date,quantity_kg,changes,client_feedback,score_10,decision
+SMP-001,PJ-001,V1,2026-06-10,2,"Formulation initiale : FLV-201 à 0,15 % et masquant FLV-214 à 0,05 %.",Trop acide en bouche et arrière-goût de protéine encore perceptible.,5,À modifier
+SMP-002,PJ-001,V2,2026-07-02,2,"Acidité réduite (pH ajusté à 6,2) et masquant FLV-214 porté à 0,08 %.","Acidité correcte et plus d'arrière-goût, mais la mangue manque d'intensité.",7,À modifier
+SMP-003,PJ-001,V3,2026-07-24,2,Intensité de la note mangue augmentée de 20 %.,"Parfait, conforme au brief.",9,Validé
+SMP-004,PJ-002,V1,2026-08-20,1,"FLV-203 dosé à 0,30 %.","Trop boisé, manque de rondeur crémeuse.",6,À modifier
+SMP-005,PJ-002,V2,2026-09-10,1,"Note boisée réduite, note crème renforcée.","Très bon équilibre, validé par le panel interne du client.",9,Validé
+SMP-006,PJ-003,V1,2026-09-01,2,"FRG-105 dosé à 0,5 %.","Bonne odeur à l'ouverture du flacon, mais presque plus rien sur le linge sec.",5,À modifier
+SMP-007,PJ-003,V2,2026-09-29,2,"Ajout de fixateurs musqués, dosage porté à 0,6 %.","Rémanence nettement meilleure, mais la note musquée est trop dominante.",7,À modifier
+SMP-008,PJ-004,V1,2026-05-12,1,FRG-101 version standard.,Exactement le profil recherché.,9,Validé
+SMP-009,PJ-005,V1,2026-10-14,1,"FLV-209 dosé à 0,30 %.","Bon goût dans la pâte crue, mais l'arôme s'affaiblit nettement après la cuisson à 190 °C.",6,À modifier
+SMP-010,PJ-006,V1,2026-11-05,2,"FLV-205 en version sans sucre, compatible sucralose.",Pas encore de retour : en attente de l'avis du client.,,En attente du retour client
+SMP-011,PJ-007,V1,2026-07-01,0.5,FRG-108 en concentration 12 %.,Trop sucré : la note miel écrase le néroli.,6,À modifier
+SMP-012,PJ-007,V2,2026-07-22,0.5,"Note miel réduite, néroli renforcé.","Lumineux et élégant, validé.",9,Validé
+SMP-013,PJ-008,V1,2026-09-15,1,"FRG-107, formule à 85 % d'origine naturelle.",Conforme : odeur de lavande authentique.,8,Validé
+SMP-014,PJ-009,V1,2026-08-05,2,"FLV-212 dosé à 0,10 %.",Le yuzu est trop amer.,6,À modifier
+SMP-015,PJ-009,V2,2026-08-26,2,"Amertume réduite, citron vert renforcé.",Validé pour le lancement.,9,Validé
+SMP-016,PJ-010,V1,2026-10-20,0.5,"FRG-110 dosé à 0,15 %.","Parfum trop discret, presque imperceptible après application.",5,À modifier
+SMP-017,PJ-012,V1,2026-04-10,2,"FLV-213 dosé à 0,20 %.","Profil apprécié, mais le client a abandonné sa gamme soda.",8,Projet annulé

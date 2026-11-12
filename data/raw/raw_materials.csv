@@ -1,0 +1,15 @@
+raw_material_id,reference,name,type,origin,profile,allergen,regulatory_note,used_in,status
+RM-001,RM-FL-001,Extrait de rose,Extrait naturel,Bulgarie,"floral, rosé, élégant","citronellol, géraniol",Déclaration des allergènes requise,PR-017,disponible
+RM-002,RM-WD-001,Essence de cèdre,Huile essentielle,États-Unis,"boisé, sec, chaleureux",aucun,Aucune restriction particulière,PR-018,disponible
+RM-003,RM-CT-001,Huile essentielle de bergamote,Huile essentielle,Italie,"hespéridé, pétillant, légèrement amer",limonène,Qualité sans furocoumarines (FCF) obligatoire,PR-019,disponible
+RM-004,RM-GM-001,Absolue de fève tonka,Absolue,Venezuela,"gourmand, amandé, chaud",coumarine,Dosage encadré par les normes IFRA,"PR-018, PR-020",disponible
+RM-005,RM-GM-002,Extrait de vanille Bourbon,Extrait naturel,Madagascar,"vanillé, crémeux, boisé",aucun,Origine et traçabilité certifiées,"PR-003, PR-007",disponible (prix volatil)
+RM-006,RM-SP-001,Extrait CO2 de gingembre,Extrait naturel,Inde,"piquant, frais, citronné",aucun,Aucune restriction particulière,PR-002,disponible
+RM-007,RM-FR-001,Jus concentré de mangue,Concentré de fruit,Inde,"fruité, tropical, sucré",aucun,Contrôle pesticides à chaque lot,PR-001,disponible
+RM-008,RM-AR-001,Huile essentielle de lavande vraie,Huile essentielle,France,"aromatique, herbacé, frais","linalol, limonène","Certifiée bio, compatible Ecolabel",PR-023,disponible
+RM-009,RM-SY-001,Musc blanc,Molécule de synthèse,Synthèse,"musqué, propre, poudré",aucun,Biodégradabilité validée,"PR-017, PR-021, PR-026",disponible
+RM-010,RM-VG-001,Extrait de thé matcha,Extrait naturel,Japon,"végétal, herbacé, umami",aucun,Contrôle de la caféine résiduelle,PR-015,disponible en petites quantités
+RM-011,RM-FR-002,Huile essentielle de menthe poivrée,Huile essentielle,Inde,"mentholé, froid, vif",aucun,Teneur en pulégone limitée par la réglementation arômes,PR-010,disponible
+RM-012,RM-FL-002,Huile essentielle de néroli,Huile essentielle,Tunisie,"floral, lumineux, hespéridé",linalol,Déclaration des allergènes requise,PR-024,disponible
+RM-013,RM-WD-002,Huile essentielle de vétiver,Huile essentielle,Haïti,"boisé, terreux, fumé",aucun,Approvisionnement tendu : délai supplémentaire de 15 jours,PR-025,tension d'approvisionnement
+RM-014,RM-GM-003,Extrait de cacao torréfié,Extrait naturel,Côte d'Ivoire,"cacaoté, torréfié, amer",aucun,Filière cacao durable certifiée,PR-006,disponible

@@ -1,0 +1,92 @@
+name: Évaluation des modèles
+
+# Lance l'évaluation complète avec les vrais modèles (Ollama) sur les serveurs
+# GitHub, puis ajoute les rapports dans results/.
+# Déclenchement : bouton « Run workflow » dans l'onglet Actions, ou modification
+# de .github/eval-trigger.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/eval-trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: evaluate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Dépendances Python
+        run: pip install -r requirements.txt
+
+      - name: Ollama et modèles
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          (ollama serve > /tmp/ollama.log 2>&1 &) || true
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:11434/api/tags > /dev/null && break; sleep 2; done
+          ollama pull nomic-embed-text
+          ollama pull qwen3-embedding:4b
+          ollama pull qwen2.5:1.5b
+          ollama list
+
+      - name: Dataset et tests
+        run: |
+          python generate_dataset.py
+          python -m pytest -q
+
+      - name: Baseline sans IA
+        run: |
+          python baseline_tfidf.py --label baseline_tfidf
+          python baseline_tfidf.py --rerank --label baseline_tfidf_rerank
+          python baseline_tfidf.py --cases data/eval/unseen_cases.json --label baseline_tfidf_inedits
+          python baseline_tfidf.py --rerank --cases data/eval/unseen_cases.json --label baseline_tfidf_rerank_inedits
+
+      - name: V2 avec nomic-embed-text
+        env:
+          EMBED_MODEL: nomic-embed-text
+        run: |
+          python clean.py && python ingest.py
+          python evaluate.py --label v2_nomic
+          python evaluate.py --label v2_nomic_inedits --cases data/eval/unseen_cases.json
+
+      - name: V2 avec qwen3-embedding:4b
+        env:
+          EMBED_MODEL: qwen3-embedding:4b
+        run: |
+          python clean.py && python ingest.py
+          python evaluate.py --label v2_qwen3
+          python evaluate.py --label v2_qwen3_inedits --cases data/eval/unseen_cases.json
+
+      - name: Synthèse
+        if: always()
+        run: |
+          python report.py || true
+          if [ -f results/SYNTHESE.md ]; then
+            cat results/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+            grep '^| `' results/SYNTHESE.md | while IFS= read -r line; do echo "::notice title=Synthèse::$line"; done
+          fi
+          tail -n 30 /tmp/ollama.log || true
+
+      - name: Ajouter les résultats au dépôt
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results
+          if git diff --cached --quiet; then echo "Aucun résultat nouveau."; exit 0; fi
+          git commit -m "Résultats de l'évaluation des modèles (GitHub Actions, CPU)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

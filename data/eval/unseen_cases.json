@@ -1,0 +1,12 @@
+[
+  {"id": "U01", "category": "recommandation", "question": "Avez-vous une fragrance aquatique pour un nettoyant multi-surfaces ?", "expected_doc_ids": ["product_PR-022"], "must_include": [["FRG-106"]], "expect_refusal": false},
+  {"id": "U02", "category": "recommandation", "question": "Quel arôme salé conviendrait à des chips ?", "expected_doc_ids": ["product_PR-016"], "must_include": [["FLV-216"]], "expect_refusal": false},
+  {"id": "U03", "category": "fiche_produit", "question": "Quelle est la naturalité de l'arôme Pêche Abricot ?", "expected_doc_ids": ["product_PR-008"], "must_include": [["100 % naturel", "100% naturel"]], "expect_refusal": false},
+  {"id": "U04", "category": "suivi_projet", "question": "Où en est la boisson végétale matcha de la Laiterie des Alpes ?", "expected_doc_ids": ["project_PJ-011"], "must_include": [["formulation"]], "expect_refusal": false},
+  {"id": "U05", "category": "suivi_projet", "question": "Quelle note a reçue la première version du nettoyant lavande de Verde Home Care ?", "expected_doc_ids": ["sample_SMP-013", "project_PJ-008"], "must_include": [["8"]], "expect_refusal": false},
+  {"id": "U06", "category": "commande", "question": "La commande ORD-2026-006 est-elle déjà expédiée ?", "expected_doc_ids": ["order_ORD-2026-006"], "must_include": [["préparation", "preparation"]], "expect_refusal": false},
+  {"id": "U07", "category": "faq", "question": "Combien coûte un échantillon de 1 kg ?", "expected_doc_ids": ["faq_echantillons", "faq_tarifs"], "must_include": [["gratuit", "free"]], "expect_refusal": false},
+  {"id": "U08", "category": "fiche_produit", "question": "What is the manufacturing lead time of the mint flavour FLV-210?", "expected_doc_ids": ["product_PR-010"], "must_include": [["10"]], "expect_refusal": false},
+  {"id": "U09", "category": "suivi_projet", "question": "Pourquoi le projet de soda à la cerise a-t-il été arrêté ?", "expected_doc_ids": ["project_PJ-012", "sample_SMP-017"], "must_include": [["abandon", "gamme"]], "expect_refusal": false},
+  {"id": "U10", "category": "hors_perimetre", "question": "Quel est le numéro de TVA de Northstar Beverages ?", "expected_doc_ids": [], "must_include": [], "expect_refusal": true}
+]

@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "label": "baseline_tfidf_rerank_inedits",
+    "embed_model": "TF-IDF lexical (sans IA, scikit-learn) + reclassement",
+    "llm_model": "aucun",
+    "top_k": 4,
+    "rerank": true,
+    "retrieval_only": true,
+    "date": "2026-11-12 20:12",
+    "indexed_documents": 123
+  },
+  "summary": {
+    "cases": 10,
+    "answerable_cases": 9,
+    "hits": 9,
+    "errors": 0,
+    "hit_at_k": 1.0,
+    "mrr": 1.0,
+    "latency_mean_s": 0.001,
+    "latency_p95_s": 0.001,
+    "by_category": {
+      "recommandation": {
+        "n": 2,
+        "hits": 2,
+        "answers_ok": 0
+      },
+      "fiche_produit": {
+        "n": 2,
+        "hits": 2,
+        "answers_ok": 0
+      },
+      "suivi_projet": {
+        "n": 3,
+        "hits": 3,
+        "answers_ok": 0
+      },
+      "commande": {
+        "n": 1,
+        "hits": 1,
+        "answers_ok": 0
+      },
+      "faq": {
+        "n": 1,
+        "hits": 1,
+        "answers_ok": 0
+      }
+    },
+    "validation": {
+      "hit_at_k": true,
+      "mrr": true,
+      "latency_mean_s": true
+    },
+    "validated": true
+  },
+  "results": [
+    {
+      "id": "U01",
+      "category": "recommandation",
+      "question": "Avez-vous une fragrance aquatique pour un nettoyant multi-surfaces ?",
+      "expected_doc_ids": [
+        "product_PR-022"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-022",
+        "project_PJ-008",
+        "knowledge-FRG-004",
+        "sample_SMP-013"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.001,
+      "hit": true
+    },
+    {
+      "id": "U02",
+      "category": "recommandation",
+      "question": "Quel arôme salé conviendrait à des chips ?",
+      "expected_doc_ids": [
+        "product_PR-016"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-016",
+        "knowledge-ARM-005",
+        "product_PR-009",
+        "product_PR-004"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U03",
+      "category": "fiche_produit",
+      "question": "Quelle est la naturalité de l'arôme Pêche Abricot ?",
+      "expected_doc_ids": [
+        "product_PR-008"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-008",
+        "faq_naturalite",
+        "knowledge-ARM-005",
+        "knowledge-ARM-007"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U04",
+      "category": "suivi_projet",
+      "question": "Où en est la boisson végétale matcha de la Laiterie des Alpes ?",
+      "expected_doc_ids": [
+        "project_PJ-011"
+      ],
+      "retrieved_doc_ids": [
+        "project_PJ-011",
+        "project_PJ-002",
+        "project_PJ-001",
+        "client_CL-006"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U05",
+      "category": "suivi_projet",
+      "question": "Quelle note a reçue la première version du nettoyant lavande de Verde Home Care ?",
+      "expected_doc_ids": [
+        "sample_SMP-013",
+        "project_PJ-008"
+      ],
+      "retrieved_doc_ids": [
+        "sample_SMP-013",
+        "order_ORD-2026-006",
+        "project_PJ-008",
+        "client_CL-003"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U06",
+      "category": "commande",
+      "question": "La commande ORD-2026-006 est-elle déjà expédiée ?",
+      "expected_doc_ids": [
+        "order_ORD-2026-006"
+      ],
+      "retrieved_doc_ids": [
+        "order_ORD-2026-006",
+        "order_ORD-2026-007",
+        "order_ORD-2026-005",
+        "order_ORD-2026-001"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U07",
+      "category": "faq",
+      "question": "Combien coûte un échantillon de 1 kg ?",
+      "expected_doc_ids": [
+        "faq_echantillons",
+        "faq_tarifs"
+      ],
+      "retrieved_doc_ids": [
+        "faq_echantillons",
+        "faq_commande",
+        "faq_rectifications",
+        "knowledge-FRG-008"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U08",
+      "category": "fiche_produit",
+      "question": "What is the manufacturing lead time of the mint flavour FLV-210?",
+      "expected_doc_ids": [
+        "product_PR-010"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-010",
+        "knowledge-FRG-006",
+        "raw_material_RM-011",
+        "product_PR-026"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U09",
+      "category": "suivi_projet",
+      "question": "Pourquoi le projet de soda à la cerise a-t-il été arrêté ?",
+      "expected_doc_ids": [
+        "project_PJ-012",
+        "sample_SMP-017"
+      ],
+      "retrieved_doc_ids": [
+        "project_PJ-012",
+        "project_PJ-001",
+        "project_PJ-002",
+        "project_PJ-007"
+      ],
+      "rank": 1,
+      "answer": "",
+      "latency_s": 0.0008,
+      "hit": true
+    },
+    {
+      "id": "U10",
+      "category": "hors_perimetre",
+      "question": "Quel est le numéro de TVA de Northstar Beverages ?",
+      "expected_doc_ids": [],
+      "retrieved_doc_ids": [
+        "order_ORD-2026-007",
+        "sample_SMP-014",
+        "client_CL-004",
+        "sample_SMP-015"
+      ],
+      "rank": null,
+      "answer": "",
+      "latency_s": 0.0007,
+      "refusal_ok": null
+    }
+  ]
+}

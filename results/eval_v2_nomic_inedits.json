@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "label": "v2_nomic_inedits",
+    "embed_model": "nomic-embed-text",
+    "llm_model": "qwen2.5:1.5b",
+    "top_k": 4,
+    "rerank": true,
+    "retrieval_only": false,
+    "date": "2026-11-12 20:23"
+  },
+  "summary": {
+    "cases": 10,
+    "answerable_cases": 9,
+    "hits": 9,
+    "errors": 0,
+    "hit_at_k": 1.0,
+    "mrr": 0.9444444444444444,
+    "latency_mean_s": 16.098,
+    "latency_p95_s": 22.892,
+    "answers_ok": 5,
+    "answer_accuracy": 0.5555555555555556,
+    "refusal_accuracy": 1.0,
+    "by_category": {
+      "recommandation": {
+        "n": 2,
+        "hits": 2,
+        "answers_ok": 1
+      },
+      "fiche_produit": {
+        "n": 2,
+        "hits": 2,
+        "answers_ok": 2
+      },
+      "suivi_projet": {
+        "n": 3,
+        "hits": 3,
+        "answers_ok": 2
+      },
+      "commande": {
+        "n": 1,
+        "hits": 1,
+        "answers_ok": 0
+      },
+      "faq": {
+        "n": 1,
+        "hits": 1,
+        "answers_ok": 0
+      }
+    },
+    "validation": {
+      "hit_at_k": true,
+      "mrr": true,
+      "answer_accuracy": false,
+      "refusal_accuracy": true,
+      "latency_mean_s": false
+    },
+    "validated": false
+  },
+  "results": [
+    {
+      "id": "U01",
+      "category": "recommandation",
+      "question": "Avez-vous une fragrance aquatique pour un nettoyant multi-surfaces ?",
+      "expected_doc_ids": [
+        "product_PR-022"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-022",
+        "product_PR-024",
+        "product_PR-019",
+        "product_PR-029"
+      ],
+      "rank": 1,
+      "answer": "Je suis désolé, mais je n'ai pas trouvé de fragrances aquatiques pour un nettoyant multi-surfaces dans le catalogue disponible.",
+      "latency_s": 16.694,
+      "hit": true,
+      "answer_ok": false,
+      "missing": [
+        [
+          "FRG-106"
+        ]
+      ]
+    },
+    {
+      "id": "U02",
+      "category": "recommandation",
+      "question": "Quel arôme salé conviendrait à des chips ?",
+      "expected_doc_ids": [
+        "product_PR-016"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-009",
+        "product_PR-016",
+        "product_PR-010",
+        "product_PR-006"
+      ],
+      "rank": 2,
+      "answer": "Le fumé barbecue (FLV-216) serait une excellente option pour les chips. Il possède une intensité forte et est naturel, ce qui convient parfaitement aux chips.",
+      "latency_s": 16.691,
+      "hit": true,
+      "answer_ok": true,
+      "missing": []
+    },
+    {
+      "id": "U03",
+      "category": "fiche_produit",
+      "question": "Quelle est la naturalité de l'arôme Pêche Abricot ?",
+      "expected_doc_ids": [
+        "product_PR-008"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-008",
+        "faq_naturalite",
+        "project_PJ-002",
+        "project_PJ-011"
+      ],
+      "rank": 1,
+      "answer": "La naturalité de l'arôme Pêche Abricot est de 100 % naturel.",
+      "latency_s": 17.643,
+      "hit": true,
+      "answer_ok": true,
+      "missing": []
+    },
+    {
+      "id": "U04",
+      "category": "suivi_projet",
+      "question": "Où en est la boisson végétale matcha de la Laiterie des Alpes ?",
+      "expected_doc_ids": [
+        "project_PJ-011"
+      ],
+      "retrieved_doc_ids": [
+        "project_PJ-011",
+        "project_PJ-006",
+        "product_PR-015",
+        "project_PJ-001"
+      ],
+      "rank": 1,
+      "answer": "La boisson végétale matcha de la Laiterie des Alpes est actuellement dans la phase de formulation (avancement 25%). Une version V1 est en cours de création et sera envoyée prochainement.",
+      "latency_s": 22.892,
+      "hit": true,
+      "answer_ok": true,
+      "missing": []
+    },
+    {
+      "id": "U05",
+      "category": "suivi_projet",
+      "question": "Quelle note a reçue la première version du nettoyant lavande de Verde Home Care ?",
+      "expected_doc_ids": [
+        "sample_SMP-013",
+        "project_PJ-008"
+      ],
+      "retrieved_doc_ids": [
+        "sample_SMP-013",
+        "sample_SMP-007",
+        "sample_SMP-008",
+        "sample_SMP-006"
+      ],
+      "rank": 1,
+      "answer": "Information non disponible dans les données fournies.",
+      "latency_s": 10.539,
+      "hit": true,
+      "answer_ok": false,
+      "missing": [
+        [
+          "8"
+        ]
+      ]
+    },
+    {
+      "id": "U06",
+      "category": "commande",
+      "question": "La commande ORD-2026-006 est-elle déjà expédiée ?",
+      "expected_doc_ids": [
+        "order_ORD-2026-006"
+      ],
+      "retrieved_doc_ids": [
+        "order_ORD-2026-006",
+        "order_ORD-2026-010",
+        "order_ORD-2026-009",
+        "order_ORD-2026-007"
+      ],
+      "rank": 1,
+      "answer": "La commande ORD-2026-006 n'est pas encore expédiée. Elle est en cours de livraison prévue pour la date de livraison prévue 2026-11-28.",
+      "latency_s": 16.893,
+      "hit": true,
+      "answer_ok": false,
+      "missing": [
+        [
+          "préparation",
+          "preparation"
+        ]
+      ]
+    },
+    {
+      "id": "U07",
+      "category": "faq",
+      "question": "Combien coûte un échantillon de 1 kg ?",
+      "expected_doc_ids": [
+        "faq_echantillons",
+        "faq_tarifs"
+      ],
+      "retrieved_doc_ids": [
+        "faq_echantillons",
+        "sample_SMP-010",
+        "sample_SMP-009",
+        "sample_SMP-011"
+      ],
+      "rank": 1,
+      "answer": "Le coût d'un échantillon de 1 kg est facturé au prix catalogue.",
+      "latency_s": 11.078,
+      "hit": true,
+      "answer_ok": false,
+      "missing": [
+        [
+          "gratuit",
+          "free"
+        ]
+      ]
+    },
+    {
+      "id": "U08",
+      "category": "fiche_produit",
+      "question": "What is the manufacturing lead time of the mint flavour FLV-210?",
+      "expected_doc_ids": [
+        "product_PR-010"
+      ],
+      "retrieved_doc_ids": [
+        "product_PR-010",
+        "order_ORD-2026-007",
+        "order_ORD-2026-004",
+        "order_ORD-2026-001"
+      ],
+      "rank": 1,
+      "answer": "La durée de fabrication recommandée pour le produit FLV-210, Menthe Glaciale, est de 10 jours ouvrés.",
+      "latency_s": 13.149,
+      "hit": true,
+      "answer_ok": true,
+      "missing": []
+    },
+    {
+      "id": "U09",
+      "category": "suivi_projet",
+      "question": "Pourquoi le projet de soda à la cerise a-t-il été arrêté ?",
+      "expected_doc_ids": [
+        "project_PJ-012",
+        "sample_SMP-017"
+      ],
+      "retrieved_doc_ids": [
+        "project_PJ-012",
+        "project_PJ-009",
+        "project_PJ-010",
+        "project_PJ-005"
+      ],
+      "rank": 1,
+      "answer": "Le projet de soda à la cerise a été arrêté en raison de l'abandon de la gamme soda par le client Northstar Beverages. Cette décision a été prise en raison d'une série de contraintes spécifiques, notamment la nécessité de respecter les normes halal et la préférence du client pour une gamme de produits plus naturelle.",
+      "latency_s": 24.434,
+      "hit": true,
+      "answer_ok": true,
+      "missing": []
+    },
+    {
+      "id": "U10",
+      "category": "hors_perimetre",
+      "question": "Quel est le numéro de TVA de Northstar Beverages ?",
+      "expected_doc_ids": [],
+      "retrieved_doc_ids": [
+        "order_ORD-2026-007",
+        "client_CL-004",
+        "sample_SMP-017",
+        "sample_SMP-015"
+      ],
+      "rank": null,
+      "answer": "Information non disponible dans les données fournies.",
+      "latency_s": 10.963,
+      "refusal_ok": true
+    }
+  ]
+}
