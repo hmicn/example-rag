@@ -1,0 +1,7 @@
+raw_material_id,reference,name,type,origin,profile,allergen,regulatory_note,status
+RM-001,RM-FL-001,Extrait de rose,Extrait naturel,France,"floral, rosé, élégant",oui,Déclaration allergènes à vérifier,approved
+RM-002,RM-WD-001,Essence de cèdre,Extrait naturel,États-Unis,"boisé, sec, chaleureux",non,Utilisation selon le dosage autorisé,approved
+RM-003,RM-FR-001,Huile de bergamote,Extrait naturel,Italie,"agrumes, frais, zesté",oui,Contrôle de phototoxicité requis,restricted
+RM-004,RM-FT-001,Arôme mangue,Arôme nature-identique,Brésil,"fruité, tropical, mûr",non,Conforme au marché européen,approved
+RM-005,RM-FT-002,Arôme fruit de la passion,Arôme nature-identique,Pérou,"fruité, acidulé, tropical",non,Conforme au marché européen,approved
+RM-006,RM-FR-002,Extrait de gingembre,Extrait naturel,Inde,"épicé, frais, citronné",non,Stabilité à vérifier dans les boissons,approved

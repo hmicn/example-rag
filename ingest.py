@@ -1,9 +1,13 @@
-"""Charge story.txt dans la base vectorielle.
+"""Ingestion du dataset synthétique dans ChromaDB.
 
 Usage :
-    python ingest.py                 # charge story.txt
-    python ingest.py autre_histoire.txt
+    python ingest.py
+    python ingest.py givaudan_data.txt
+
+Le fichier givaudan_data.txt est généré par generate_dataset.py.
 """
+
+from __future__ import annotations
 
 import re
 import sys
@@ -12,80 +16,157 @@ from pathlib import Path
 import config
 import rag
 
-# Un titre de chapitre ressemble à "IV. Le Sanctuaire Brisé" ou "Chapitre 1 : Le Grand Départ"
-CHAPTER_RE = re.compile(r"^(?:[IVXLC]+\.\s+\S|chapitre\s+\w+\b)", re.IGNORECASE)
+
+# Reconnaît les sections générées dans givaudan_data.txt :
+# "Chapter 1: client_CL-001"
+SECTION_RE = re.compile(
+    r"^(?:chapter|chapitre)\s+\d+\s*[:.]",
+    re.IGNORECASE,
+)
 
 
 def split_into_sections(text: str) -> tuple[str, list[tuple[str, list[str]]]]:
-    """Retourne (titre de l'histoire, [(titre du chapitre, [paragraphes])])."""
+    """Découpe le corpus en sections RAG."""
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
-    title = ""
-    if paragraphs and not CHAPTER_RE.match(paragraphs[0]):
-        title = paragraphs.pop(0)
+
+    dataset_title = ""
+    if paragraphs and not SECTION_RE.match(paragraphs[0]):
+        dataset_title = paragraphs.pop(0)
 
     sections: list[tuple[str, list[str]]] = []
-    current_title, current = "Introduction", []
-    for p in paragraphs:
-        if CHAPTER_RE.match(p) and len(p) < 120:
-            if current:
-                sections.append((current_title, current))
-            current_title, current = p, []
+    current_title = "Introduction"
+    current_paragraphs: list[str] = []
+
+    for paragraph in paragraphs:
+        if SECTION_RE.match(paragraph) and len(paragraph) < 150:
+            if current_paragraphs:
+                sections.append((current_title, current_paragraphs))
+
+            current_title = paragraph
+            current_paragraphs = []
         else:
-            current.append(p)
-    if current:
-        sections.append((current_title, current))
-    return title, sections
+            current_paragraphs.append(paragraph)
+
+    if current_paragraphs:
+        sections.append((current_title, current_paragraphs))
+
+    return dataset_title, sections
 
 
 def chunk_paragraphs(paragraphs: list[str]) -> list[str]:
-    """Regroupe les paragraphes en morceaux de ~CHUNK_SIZE caractères,
-    avec un chevauchement de CHUNK_OVERLAP_PARAGRAPHS paragraphe(s)."""
+    """Regroupe les paragraphes dans des chunks de taille contrôlée."""
     chunks: list[str] = []
     current: list[str] = []
-    size = 0
-    for p in paragraphs:
-        if current and size + len(p) > config.CHUNK_SIZE:
+    current_size = 0
+
+    for paragraph in paragraphs:
+        if current and current_size + len(paragraph) > config.CHUNK_SIZE:
             chunks.append("\n\n".join(current))
-            overlap = current[-config.CHUNK_OVERLAP_PARAGRAPHS:] if config.CHUNK_OVERLAP_PARAGRAPHS else []
+
+            overlap = (
+                current[-config.CHUNK_OVERLAP_PARAGRAPHS:]
+                if config.CHUNK_OVERLAP_PARAGRAPHS
+                else []
+            )
             current = list(overlap)
-            size = sum(len(x) for x in current)
-        current.append(p)
-        size += len(p)
+            current_size = sum(len(item) for item in current)
+
+        current.append(paragraph)
+        current_size += len(paragraph)
+
     if current:
         chunks.append("\n\n".join(current))
+
     return chunks
 
 
+def get_document_type(section_title: str) -> str:
+    """Identifie le type métier depuis le titre de section."""
+    title = section_title.lower()
+
+    if "client_" in title:
+        return "client"
+    if "product_" in title:
+        return "product"
+    if "raw_material_" in title:
+        return "raw_material"
+    if "order_" in title:
+        return "order"
+    if "sample_" in title:
+        return "sample"
+
+    return "unknown"
+
+
 def main() -> None:
-    path = Path(sys.argv[1]) if len(sys.argv) > 1 else config.STORY_PATH
-    text = path.read_text(encoding="utf-8")
-    story_title, sections = split_into_sections(text)
+    """Charge le corpus, calcule les embeddings et alimente ChromaDB."""
+    source_path = (
+        Path(sys.argv[1])
+        if len(sys.argv) > 1
+        else config.DATASET_PATH
+    )
 
-    ids, documents, metadatas = [], [], []
-    for chap_idx, (chapter, paragraphs) in enumerate(sections):
-        for chunk_idx, chunk in enumerate(chunk_paragraphs(paragraphs)):
-            ids.append(f"{path.stem}-{chap_idx:02d}-{chunk_idx:03d}")
+    if not source_path.exists():
+        raise FileNotFoundError(
+            f"Dataset introuvable : {source_path}. "
+            "Lance d'abord `python generate_dataset.py`."
+        )
+
+    text = source_path.read_text(encoding="utf-8")
+    dataset_title, sections = split_into_sections(text)
+
+    ids: list[str] = []
+    documents: list[str] = []
+    metadatas: list[dict] = []
+
+    for section_index, (section_title, paragraphs) in enumerate(sections):
+        document_type = get_document_type(section_title)
+
+        for chunk_index, chunk in enumerate(chunk_paragraphs(paragraphs)):
+            document_id = f"{source_path.stem}-{section_index:03d}-{chunk_index:03d}"
+
+            ids.append(document_id)
             documents.append(chunk)
-            metadatas.append({
-                "source": path.name,
-                "story_title": story_title,
-                "chapter": chapter,
-                "chapter_index": chap_idx,
-                "chunk_index": chunk_idx,
-            })
+            metadatas.append(
+                {
+                    "source": source_path.name,
+                    "dataset_title": dataset_title,
+                    "section": section_title,
+                    "document_type": document_type,
+                    "section_index": section_index,
+                    "chunk_index": chunk_index,
+                }
+            )
 
-    print(f"Histoire : {story_title or path.name}")
-    print(f"{len(sections)} chapitres, {len(documents)} morceaux à indexer")
-    print(f"Calcul des embeddings avec '{config.EMBED_MODEL}'...")
+    if not documents:
+        raise ValueError("Aucun document n'a été détecté dans le dataset.")
 
-    # Le titre du chapitre est ajouté au texte embarqué pour aider la recherche
-    to_embed = [f"{m['chapter']}\n{d}" for d, m in zip(documents, metadatas)]
-    embeddings = rag.embed_documents(to_embed)
+    print(f"Dataset : {dataset_title or source_path.name}")
+    print(f"Sections détectées : {len(sections)}")
+    print(f"Documents à indexer : {len(documents)}")
+    print(f"Modèle d'embeddings : {config.EMBED_MODEL}")
+
+    # Le titre est inclus dans l'embedding pour améliorer la recherche.
+    texts_to_embed = [
+        f"{metadata['section']}\n{document}"
+        for document, metadata in zip(documents, metadatas)
+    ]
+
+    embeddings = rag.embed_documents(texts_to_embed)
 
     collection = rag.get_collection()
-    collection.upsert(ids=ids, documents=documents, metadatas=metadatas, embeddings=embeddings)
-    print(f"OK : {collection.count()} morceaux dans la collection '{config.COLLECTION_NAME}' "
-          f"({config.CHROMA_DIR})")
+    collection.upsert(
+        ids=ids,
+        documents=documents,
+        metadatas=metadatas,
+        embeddings=embeddings,
+    )
+
+    print(
+        f"Indexation terminée : {collection.count()} documents dans "
+        f"la collection '{config.COLLECTION_NAME}'."
+    )
+    print(f"Base ChromaDB : {config.CHROMA_DIR}")
 
 
 if __name__ == "__main__":

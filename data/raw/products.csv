@@ -1,0 +1,9 @@
+product_id,reference,name,domain,family,profile,application,markets,status
+PR-001,FRG-101,Velours Floral,Fragrance,Floral,"rose, pivoine, musc doux",savon,"France, Belgique, Allemagne",approved
+PR-002,FRG-102,Bois Santal Clair,Fragrance,Boisé,"santal, cèdre, ambre doux",gel douche,"France, Belgique, Allemagne, Italie",approved
+PR-003,FRG-103,Éclat Agrumes,Fragrance,Frais,"bergamote, citron, mandarine",savon,"France, Belgique, Allemagne, Italie",approved
+PR-004,FRG-104,Amande Réconfort,Fragrance,Gourmand,"amande, tonka, vanille légère",savon premium,"France, Belgique, Italie",approved
+PR-005,FLV-201,Mangue Passion,Flavor,Fruité,"mangue mûre, fruit de la passion, note tropicale",boisson protéinée,"France, Allemagne, Pays-Bas",approved
+PR-006,FLV-202,Citron Gingembre,Flavor,Frais,"citron, gingembre, fraîcheur persistante",boisson fonctionnelle,"France, Allemagne, Pays-Bas, Belgique",approved
+PR-007,FLV-203,Vanille Amande,Flavor,Gourmand,"vanille crémeuse, amande, biscuit",shake protéiné,"France, Belgique",restricted
+PR-008,FLV-204,Fruits Rouges Vifs,Flavor,Fruité,"fraise, framboise, cassis",boisson énergétique,"France, Allemagne, Pays-Bas, Belgique",approved
