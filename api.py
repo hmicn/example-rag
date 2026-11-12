@@ -1,4 +1,4 @@
-"""API de questions/réponses sur l'histoire (RAG + Ollama).
+"""API de recherche et de questions-réponses sur les données Givaudan (RAG + Ollama).
 
 Lancement :
     uvicorn api:app --reload
@@ -10,25 +10,31 @@ from pydantic import BaseModel, Field
 
 import config
 import rag
+from recommandation_v2 import recommander
 
-SYSTEM_PROMPT = """Tu es un conteur bienveillant qui répond aux questions d'enfants sur une histoire.
+SYSTEM_PROMPT = """Tu es un assistant documentaire spécialisé dans les informations sur Givaudan et ses clients.
+
 Règles :
-- Réponds UNIQUEMENT à partir des extraits de l'histoire fournis.
-- Si la réponse ne se trouve pas dans les extraits, dis gentiment que l'histoire ne le précise pas.
-- Utilise des phrases simples et claires, adaptées à un enfant.
-- Réponds en français, en quelques phrases maximum."""
+- Réponds uniquement à partir des documents fournis dans le contexte.
+- N'invente aucune information, aucun chiffre et aucune source.
+- Si les documents ne permettent pas de répondre, indique clairement que l'information n'est pas disponible dans les sources.
+- Utilise plusieurs passages pertinents lorsque cela permet de donner une réponse plus complète.
+- Distingue les faits des scénarios fictifs présents dans les documents.
+- Réponds en français, de manière claire, précise et professionnelle.
+- Reste concis, mais donne suffisamment de détails pour répondre à la question.
+"""
 
 app = FastAPI(
-    title="Story RAG API",
-    description="Pose des questions sur l'histoire chargée dans la base vectorielle. "
-                "Les réponses sont générées par un LLM Ollama à partir des passages retrouvés.",
+   title="Givaudan RAG API",
+description="API de recherche et de questions-réponses sur les données documentaires de Givaudan. "
+            "Les réponses sont générées par un modèle Ollama à partir des passages retrouvés dans la base vectorielle.",
     version="1.0.0",
 )
 
 
 class AskRequest(BaseModel):
-    question: str = Field(..., min_length=1, examples=["Comment s'appelle le cheval de Loran ?"])
-    top_k: int = Field(config.TOP_K, ge=1, le=20, description="Nombre de passages à retrouver")
+    question: str = Field(..., min_length=1, examples=["Quels sont les principaux domaines d'activité de Givaudan ?"])
+    top_k: int = Field(config.TOP_K, ge=1, le=20, description="Nombre maximum de passages pertinents à récupérer dans la base documentaire Givaudan")
 
 
 class Source(BaseModel):
@@ -53,7 +59,11 @@ def retrieve(question: str, top_k: int) -> list[Source]:
         n_results=min(top_k, collection.count()),
     )
     return [
-        Source(chapter=meta["chapter"], text=doc, score=round(1 - dist, 4))
+        Source(
+    chapter=meta.get("chapter", meta.get("categorie", "Non renseigné")),
+    text=doc,
+    score=round(1 - dist, 4)
+)
         for doc, meta, dist in zip(result["documents"][0], result["metadatas"][0], result["distances"][0])
     ]
 
@@ -62,26 +72,27 @@ def retrieve(question: str, top_k: int) -> list[Source]:
 def health():
     """Vérifie que la base est chargée et indique les modèles utilisés."""
     return {
+        "status": "ok",
         "chunks": rag.get_collection().count(),
         "llm_model": config.LLM_MODEL,
         "embed_model": config.EMBED_MODEL,
     }
 
 
-@app.post("/search", response_model=list[Source], tags=["histoire"])
+@app.post("/search", response_model=list[Source], tags=["Givaudan RAG"])
 def search(req: AskRequest):
     """Retourne seulement les passages pertinents (sans appeler le LLM)."""
     return retrieve(req.question, req.top_k)
 
 
-@app.post("/ask", response_model=AskResponse, tags=["histoire"])
+@app.post("/ask", response_model=AskResponse, tags=["Givaudan RAG"])
 def ask(req: AskRequest):
-    """Répond à une question sur l'histoire à partir des passages retrouvés."""
+    """Génère une réponse à une question sur Givaudan à partir des documents pertinents retrouvés dans la base vectorielle."""
     sources = retrieve(req.question, req.top_k)
     context = "\n\n---\n\n".join(f"[{s.chapter}]\n{s.text}" for s in sources)
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"Extraits de l'histoire :\n\n{context}\n\nQuestion : {req.question}"},
+        {"role": "user", "content": f"Informations issues des documents sur Givaudan :\n\n{context}\n\nQuestion : {req.question}"},
     ]
     try:
         answer = rag.chat(messages)
@@ -89,6 +100,50 @@ def ask(req: AskRequest):
         raise HTTPException(502, f"Erreur Ollama : {exc}") from exc
     return AskResponse(question=req.question, answer=answer.strip(), model=config.LLM_MODEL, sources=sources)
 
+class PreferencesProduit(BaseModel):
+    gourmand: int = Field(ge=1, le=10)
+    premium: int = Field(ge=1, le=10)
+    naturel: int = Field(ge=1, le=10)
+    audace: int = Field(ge=1, le=10)
+    bienetre: int = Field(ge=1, le=10)
+
+
+class DemandeRecommandation(BaseModel):
+    univers: str
+    brief: str = ""
+    preferences: PreferencesProduit
+    top_k: int = Field(default=3, ge=1, le=10)
+
+@app.post("/recommend", tags=["Recommandation produits"])
+def recommend(req: DemandeRecommandation):
+    """Recommande les produits les plus proches du besoin client."""
+
+    if req.univers not in ("parfum", "arome"):
+        raise HTTPException(
+            status_code=422,
+            detail="L'univers doit être 'parfum' ou 'arome'."
+        )
+
+    preferences = req.preferences.model_dump()
+
+    resultats = recommander(
+        univers=req.univers,
+        preferences=preferences,
+        top_k=req.top_k,
+        brief=req.brief
+    )
+
+    if not resultats:
+        return {
+            "status": "no_match",
+            "recommendations": [],
+            "message": "Aucun produit correspondant trouvé."
+        }
+
+    return {
+        "status": "success",
+        "recommendations": resultats
+    }
 
 if __name__ == "__main__":
     import uvicorn

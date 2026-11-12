@@ -1,0 +1,31 @@
+id;univers;brief;gourmand;premium;naturel;audace;bienetre;produit_attendu
+T01;parfum;Parfum gourmand vanillé réconfortant;9;5;4;4;5;P01
+T02;parfum;Parfum boisé naturel et premium;3;8;8;5;6;P02
+T03;parfum;Parfum frais aux agrumes pour le quotidien;1;4;6;6;7;P03
+T04;arome;Arôme chocolaté gourmand salé-sucré;9;7;5;7;2;A02
+T05;arome;Boisson fonctionnelle gingembre curcuma bien-être;2;4;8;6;10;A06
+T06;arome;Dessert gourmand au caramel moins sucré;9;3;3;1;3;A08
+T07;parfum;Une marque cherche un parfum chaleureux et gourmand pour une collection haut de gamme;8;8;5;6;4;P08
+T08;parfum;Un client souhaite un parfum frais et discret pour une utilisation quotidienne;2;4;6;2;7;P10
+T09;parfum;Une marque souhaite lancer un parfum original avec des notes de cuir et un positionnement luxe;5;9;5;9;3;P12
+T10;arome;Une entreprise recherche un arome vegetal et rafraichissant pour une boisson bien-etre;3;5;8;5;9;A06
+T11;arome;Un fabricant veut developper un dessert naturel aux notes de miel;7;5;8;3;6;A11
+T12;arome;Une marque souhaite une boisson gourmande au cafe et a la noisette;8;5;4;5;4;A12
+T14;parfum;Un client souhaite un parfum apaisant inspire des plantes et du bien-etre;2;5;8;3;9;P07
+T15;parfum;Une maison de luxe recherche un parfum boise original avec une forte personnalite;4;9;6;7;4;P12
+T16;arome;Une entreprise veut une boisson proteinee gourmande avec un positionnement bien-etre;7;4;5;3;9;A03
+T17;arome;Une marque cherche une saveur fruitee epicee pour un snack innovant;7;4;5;8;3;A09
+T18;arome;Un fabricant souhaite un dessert gourmand au caramel avec une reduction de sucre;8;4;4;2;4;A08
+T13;parfum;Une marque recherche une fragrance florale douce et elegante pour une clientele premium;3;7;6;3;6;P04
+T19;parfum;Une marque souhaite un parfum leger floral inspire du the pour une clientele recherchant la serenite;3;6;8;4;8;P09
+T20;parfum;Un client recherche une fragrance propre et discrete pour des produits de soin quotidiens;2;3;6;2;8;P10
+T21;parfum;Une maison recherche un parfum vert et fruite avec une note de figue naturelle;4;6;8;5;6;P11
+T22;arome;Une entreprise souhaite une boisson acidulee aux agrumes avec une touche florale;3;5;7;7;7;A01
+T23;arome;Une marque veut developper une alternative vegetale avec un gout fume et savoureux;6;5;6;7;5;A05
+T24;arome;Un fabricant recherche une boisson douce au matcha avec une dimension bien-etre;5;5;8;4;9;A10
+T25;parfum;Une marque veut un parfum fruite gourmand avec une signature originale pour les jeunes adultes;8;5;4;7;3;P05
+T26;parfum;Une maison recherche une fragrance musquee sensuelle et audacieuse pour une gamme premium;4;8;4;8;4;P06
+T27;parfum;Un client souhaite une creation ambrée epicee luxueuse avec une forte personnalite;6;9;5;8;3;P08
+T28;arome;Une entreprise cherche une saveur agrumes durable pour une boisson issue de la revalorisation;4;6;8;5;6;A07
+T29;arome;Une marque souhaite un dessert naturel au miel et aux plantes aromatiques;6;5;8;3;7;A11
+T30;arome;Un fabricant recherche une saveur chocolat sale sucre pour un snack gourmand premium;9;8;5;7;3;A02

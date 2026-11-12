@@ -1,99 +1,315 @@
-# Story RAG API
+# Givaudan AI Recommendation
 
-Pose des questions sur une histoire pour enfants (`story.txt`) via une API FastAPI.
-Les passages pertinents sont retrouvés dans une base vectorielle (ChromaDB), puis un
-LLM Ollama rédige la réponse.
+**Projet Hackathon HETIC x Givaudan**
 
-## Fichiers du projet
+Une solution d'intelligence artificielle combinant un système de recherche documentaire (RAG) et un moteur de recommandation de produits pour accompagner les équipes commerciales dans l'analyse des besoins clients.
 
-| Fichier            | Rôle |
-|--------------------|------|
-| `story.txt`        | L'histoire pour enfants, source des réponses. Le titre est sur la première ligne, les chapitres commencent par « Chapitre N : … » ou « I. … ». |
-| `ingest.py`        | Charge l'histoire dans la base : découpe le texte par chapitre en morceaux d'environ 800 caractères, calcule leurs embeddings avec Ollama et les enregistre dans ChromaDB. Peut être relancé sans créer de doublons. Accepte un autre fichier en argument : `python ingest.py autre.txt`. |
-| `clean.py`         | Vide la base (supprime la collection ChromaDB), pour recharger l'histoire ou changer de modèle d'embeddings. |
-| `api.py`           | L'API FastAPI avec son Swagger : retrouve les passages proches de la question, puis demande au LLM d'y répondre simplement, comme à un enfant. Contient aussi le prompt système. |
-| `list.py`          | Affiche le contenu de la base : modèle d'embeddings utilisé, nombre de morceaux, puis chaque morceau (identifiant, taille, aperçu du texte) groupé par chapitre. Avec `--full`, affiche le texte complet. |
-| `rag.py`           | Code partagé par les scripts : connexion à ChromaDB, calcul des embeddings et appel du LLM via Ollama. |
-| `config.py`        | Tous les réglages (modèles, chemins, taille des morceaux, nombre de passages), modifiables par variables d'environnement. |
-| `requirements.txt` | Dépendances Python : FastAPI, Uvicorn, Ollama, ChromaDB. |
-| `.gitignore`       | Exclut de git le venv, la base `chroma_db/`, les caches Python et les fichiers locaux. |
-| `chroma_db/`       | Base vectorielle créée par `ingest.py` (non versionnée). |
+## Présentation du projet
+
+Ce projet propose une API capable de répondre à des questions sur les données documentaires de Givaudan et de recommander des produits en fonction des préférences et du brief d'un client.
+
+La solution repose sur deux fonctionnalités principales :
+
+### 1. Recherche documentaire intelligente (RAG)
+
+Le système permet de retrouver des informations pertinentes dans une base documentaire à l'aide de la recherche vectorielle.
+
+- Importation de données depuis des fichiers CSV ou TXT.
+- Découpage et préparation des documents.
+- Génération d'embeddings avec Ollama.
+- Stockage vectoriel avec ChromaDB.
+- Recherche des passages pertinents.
+- Génération de réponses avec un modèle de langage local.
+
+### 2. Moteur de recommandation de produits
+
+Le moteur identifie les produits correspondant le mieux aux attentes d'un client.
+
+Il prend en compte cinq critères :
+
+- Gourmand
+- Premium
+- Naturel
+- Audace
+- Bien-être
+
+Le moteur V2 combine les scores des préférences avec une comparaison lexicale du brief commercial pour calculer un score de correspondance.
+
+Deux univers sont pris en charge :
+- Arôme (`arome`)
+- Parfum (`parfum`)
+
+## Technologies utilisées
+
+| Technologie | Utilisation |
+|---|---|
+| Python | Langage principal |
+| FastAPI | Création de l'API REST |
+| Ollama | Exécution locale des modèles IA |
+| Qwen 2.5 | Génération des réponses |
+| Nomic Embed Text | Génération des embeddings |
+| ChromaDB | Base de données vectorielle |
+| Pydantic | Validation des données |
+| Uvicorn | Serveur ASGI |
+
+## Architecture du projet
+
+```text
+givaudan-ai-recommendation/
+│
+├── api.py
+├── config.py
+├── rag.py
+├── ingest.py
+│
+├── recommandation.py
+├── recommandation_v2.py
+│
+├── analyse_dataset.py
+├── benchmark_recommandation.py
+├── benchmark_llm.pdf
+├── benchmark_v1_30_tests.txt
+│
+├── data/
+│   ├── produits_demo.csv
+│   ├── projets_demo.csv
+│   └── cas_reference.csv
+│
+├── givaudan_sales_dataset_nettoye.csv
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+La base ChromaDB (`chroma_db/`) est générée localement lors de l'indexation et n'est pas versionnée sur GitHub.
 
 ## Installation
 
-Prérequis : Python 3.10+ et [Ollama](https://ollama.com) lancé en local.
+### Prérequis
 
-### 1. Créer et activer un environnement virtuel
+- Python 3.10 ou supérieur.
+- Git.
+- Ollama installé.
+- Les modèles Ollama nécessaires au projet.
+
+### 1. Cloner le dépôt
 
 ```bash
+git clone https://github.com/Hetic-Hackathon-Givaudan-2026-Allard/givaudan-ai-recommendation.git
+```
+
+```bash
+cd givaudan-ai-recommendation
+```
+
+### 2. Créer un environnement virtuel
+
+Sous Windows :
+
+```powershell
 python -m venv .venv
 ```
 
-Puis l'activer selon votre terminal :
-
-| Terminal                  | Commande                          |
-|---------------------------|-----------------------------------|
-| Windows PowerShell        | `.venv\Scripts\Activate.ps1`      |
-| Windows cmd               | `.venv\Scripts\activate.bat`      |
-| Git Bash (Windows)        | `source .venv/Scripts/activate`   |
-| macOS / Linux             | `source .venv/bin/activate`       |
-
-Si PowerShell refuse d'exécuter le script d'activation, autorisez-le pour votre
-utilisateur une fois pour toutes :
+Activer l'environnement :
 
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+.venv\Scripts\Activate.ps1
 ```
 
-Le nom `(.venv)` apparaît alors au début de l'invite. Pour sortir du venv : `deactivate`.
+### 3. Installer les dépendances
 
-### 2. Installer les dépendances
+```bash
+python -m pip install --upgrade pip
+```
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Télécharger les modèles Ollama
+### 4. Installer les modèles Ollama
+
+Télécharger les modèles utilisés par défaut :
 
 ```bash
-ollama pull nomic-embed-text   # modèle d'embeddings
-ollama pull qwen2.5:1.5b         # LLM (ou un autre, voir Configuration)
+ollama pull qwen2.5:1.5b
 ```
-
-## Utilisation
 
 ```bash
-python ingest.py        # charge story.txt dans la base (chroma_db/)
-python list.py          # affiche le contenu de la base (--full pour le texte complet)
-python clean.py         # vide la base
-python api.py           # lance l'API sur http://127.0.0.1:8000
+ollama pull nomic-embed-text
 ```
 
-Swagger : http://127.0.0.1:8000/docs
+Vérifier les modèles installés :
 
-Pour recharger après modification de l'histoire : `python clean.py` puis `python ingest.py`.
+```bash
+ollama list
+```
 
-## Endpoints
+Ollama doit être démarré et accessible sur `http://localhost:11434`.
 
-| Méthode | Route     | Rôle                                                   |
-|---------|-----------|--------------------------------------------------------|
-| GET     | `/health` | Nombre de morceaux en base et modèles utilisés         |
-| POST    | `/search` | Passages retrouvés seulement (sans LLM), pour déboguer |
-| POST    | `/ask`    | Réponse du LLM + passages sources                      |
+## Configuration
 
-Corps de requête : `{"question": "Comment s'appelle le cheval de Léo ?", "top_k": 4}`
+Le fichier `config.py` centralise les paramètres du projet.
 
-## Configuration (variables d'environnement)
+| Paramètre | Valeur par défaut | Description |
+|---|---|---|
+| `OLLAMA_HOST` | `http://localhost:11434` | Adresse du serveur Ollama |
+| `LLM_MODEL` | `qwen2.5:1.5b` | Modèle de génération |
+| `EMBED_MODEL` | `nomic-embed-text` | Modèle d'embeddings |
+| `CHROMA_DIR` | `chroma_db` | Dossier de stockage vectoriel |
+| `COLLECTION_NAME` | `givaudan_sales` | Nom de la collection |
+| `TOP_K` | `4` | Nombre de passages récupérés par défaut |
 
-| Variable      | Défaut              |
-|---------------|---------------------|
-| `LLM_MODEL`   | `qwen2.5:1.5b`        |
-| `EMBED_MODEL` | `nomic-embed-text`  |
-| `OLLAMA_HOST` | `http://localhost:11434` |
-| `CHROMA_DIR`  | `./chroma_db`       |
-| `STORY_PATH`  | `./story.txt`       |
-| `CHUNK_SIZE`  | `800` (caractères)  |
-| `TOP_K`       | `4`                 |
+Ces paramètres peuvent être personnalisés à l'aide de variables d'environnement.
 
-Si vous changez `EMBED_MODEL`, relancez `clean.py` puis `ingest.py` : les vecteurs
-de deux modèles différents ne sont pas compatibles.
+## Importation des données dans ChromaDB
+
+Le script `ingest.py` permet d'importer des fichiers CSV ou TXT dans la base vectorielle.
+
+Pour indexer le dataset Givaudan :
+
+```powershell
+python ingest.py givaudan_sales_dataset_nettoye.csv
+```
+
+Le CSV doit contenir les colonnes suivantes :
+
+- `entreprise`
+- `categorie`
+- `titre`
+- `contenu`
+
+Les autres colonnes éventuelles sont ignorées par le script actuel.
+
+Le processus réalise les opérations suivantes :
+
+1. Lecture des données.
+2. Préparation des documents.
+3. Génération des embeddings avec Ollama.
+4. Enregistrement dans ChromaDB.
+
+## Démarrage de l'API
+
+Lancer le serveur depuis le dossier du projet :
+
+```bash
+uvicorn api:app --reload
+```
+
+L'API est accessible à l'adresse :
+
+```text
+http://127.0.0.1:8000
+```
+
+Documentation interactive Swagger :
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+## Endpoints disponibles
+
+### 1. Vérification de l'API
+
+**GET `/health`**
+
+Permet de vérifier l'état de l'API et le nombre de documents indexés.
+
+### 2. Recherche documentaire
+
+**POST `/search`**
+
+Recherche les passages les plus pertinents sans générer de réponse avec le LLM.
+
+Exemple :
+
+```json
+{
+  "question": "Quelles sont les activités principales de Givaudan ?",
+  "top_k": 4
+}
+```
+
+### 3. Questions-réponses avec le RAG
+
+**POST `/ask`**
+
+Recherche les documents pertinents puis utilise Ollama pour générer une réponse fondée sur les informations retrouvées.
+
+Exemple :
+
+```json
+{
+  "question": "Quels sont les principaux domaines d'activité de Givaudan ?",
+  "top_k": 4
+}
+```
+
+La réponse contient :
+- La question posée.
+- La réponse générée.
+- Le modèle utilisé.
+- Les sources documentaires retrouvées.
+
+### 4. Recommandation de produits
+
+**POST `/recommend`**
+
+Retourne les produits les plus proches des préférences et du brief commercial.
+
+Exemple :
+
+```json
+{
+  "univers": "arome",
+  "brief": "Je recherche un arôme gourmand et naturel",
+  "preferences": {
+    "gourmand": 9,
+    "premium": 8,
+    "naturel": 5,
+    "audace": 4,
+    "bienetre": 6
+  },
+  "top_k": 3
+}
+```
+
+Les notes des cinq critères doivent être comprises entre 1 et 10.
+
+L'univers doit être `arome` ou `parfum`.
+
+La réponse contient le statut de la recherche et la liste des recommandations avec leurs scores de correspondance.
+
+## Tests du moteur de recommandation
+
+Le moteur peut également être testé directement depuis Python :
+
+```python
+from recommandation_v2 import recommander
+
+preferences = {
+    "gourmand": 9,
+    "premium": 8,
+    "naturel": 5,
+    "audace": 4,
+    "bienetre": 6
+}
+
+resultats = recommander(
+    univers="arome",
+    preferences=preferences,
+    top_k=3,
+    brief="Je recherche un arôme gourmand et naturel"
+)
+
+for produit in resultats:
+    print(produit)
+```
+
+## Objectif
+
+L'objectif de cette solution est de faciliter l'exploitation des informations documentaires et d'améliorer l'accompagnement commercial grâce à une recherche intelligente et à des recommandations adaptées aux besoins des clients.
+
+---
+
+**Projet réalisé dans le cadre du Hackathon HETIC x Givaudan.**
