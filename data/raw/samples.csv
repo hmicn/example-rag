@@ -1,0 +1,4 @@
+sample_id,client_id,request_date,product_id,quantity_kg,brief,status,commercial_potential
+SMP-001,CL-001,2024-02-05,PR-001,5,senteur premium pour une gamme de savons artisanaux,delivered,medium
+SMP-002,CL-002,2024-02-25,PR-005,2,"mangue passion, faible acidité, compatible avec une base protéinée",converted,high
+SMP-003,CL-005,2025-05-12,PR-004,3,"profil amande chaud, naturel et non trop sucré",in_transit,medium

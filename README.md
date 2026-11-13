@@ -1,99 +1,436 @@
-# Story RAG API
+# Intelligent Ordering Platform — RAG
 
-Pose des questions sur une histoire pour enfants (`story.txt`) via une API FastAPI.
-Les passages pertinents sont retrouvés dans une base vectorielle (ChromaDB), puis un
-LLM Ollama rédige la réponse.
+## Objectif
 
-## Fichiers du projet
+Ce projet propose un système **RAG** (*Retrieval-Augmented Generation*) pour une plateforme B2B de commande intelligente dans les domaines :
 
-| Fichier            | Rôle |
-|--------------------|------|
-| `story.txt`        | L'histoire pour enfants, source des réponses. Le titre est sur la première ligne, les chapitres commencent par « Chapitre N : … » ou « I. … ». |
-| `ingest.py`        | Charge l'histoire dans la base : découpe le texte par chapitre en morceaux d'environ 800 caractères, calcule leurs embeddings avec Ollama et les enregistre dans ChromaDB. Peut être relancé sans créer de doublons. Accepte un autre fichier en argument : `python ingest.py autre.txt`. |
-| `clean.py`         | Vide la base (supprime la collection ChromaDB), pour recharger l'histoire ou changer de modèle d'embeddings. |
-| `api.py`           | L'API FastAPI avec son Swagger : retrouve les passages proches de la question, puis demande au LLM d'y répondre simplement, comme à un enfant. Contient aussi le prompt système. |
-| `list.py`          | Affiche le contenu de la base : modèle d'embeddings utilisé, nombre de morceaux, puis chaque morceau (identifiant, taille, aperçu du texte) groupé par chapitre. Avec `--full`, affiche le texte complet. |
-| `rag.py`           | Code partagé par les scripts : connexion à ChromaDB, calcul des embeddings et appel du LLM via Ollama. |
-| `config.py`        | Tous les réglages (modèles, chemins, taille des morceaux, nombre de passages), modifiables par variables d'environnement. |
-| `requirements.txt` | Dépendances Python : FastAPI, Uvicorn, Ollama, ChromaDB. |
-| `.gitignore`       | Exclut de git le venv, la base `chroma_db/`, les caches Python et les fichiers locaux. |
-| `chroma_db/`       | Base vectorielle créée par `ingest.py` (non versionnée). |
+- Fragrance & Beauty ;
+- Taste & Wellbeing ;
+- informations partagées liées aux commandes et à la personnalisation.
+
+Le système permet de :
+
+- rechercher des documents métier pertinents ;
+- répondre aux questions des utilisateurs ;
+- retourner les sources utilisées ;
+- exposer les fonctionnalités via une API FastAPI ;
+- documenter l'API avec Swagger/OpenAPI ;
+- évaluer la solution sur 30 cas métier ;
+- comparer les résultats entre une version V1 et une version V2.
+
+> Les données utilisées dans ce projet sont synthétiques ou anonymisées.
+
+---
+
+## Architecture
+
+```text
+Question utilisateur
+        |
+        v
+API FastAPI
+        |
+        v
+Embedding de la question
+        |
+        v
+Recherche vectorielle ChromaDB
+        |
+        v
+Documents pertinents
+        |
+        v
+Construction du contexte
+        |
+        v
+Modèle de génération
+        |
+        v
+Réponse avec sources
+```
+
+---
+
+## Structure du projet
+
+```text
+.
+├── api.py
+├── config.py
+├── ingest.py
+├── rag.py
+├── list.py
+├── clean.py
+├── generate_dataset.py
+├── sample_questions.py
+├── requirements.txt
+├── README.md
+├── CHANGELOG.md
+├── givaudan_data.txt
+├── data/
+├── evaluation/
+│   └── reference_cases.csv
+├── results/
+└── docs/
+    ├── api.md
+    ├── evaluation.md
+    ├── links.md
+    └── reproduction.md
+```
+
+---
+
+## Données
+
+Les données sont stockées dans :
+
+```text
+data/
+```
+
+Le projet utilise également le fichier :
+
+```text
+givaudan_data.txt
+```
+
+Les données de démonstration peuvent inclure :
+
+- des produits ;
+- des fragrances ;
+- des arômes ;
+- des matières premières ;
+- des commandes ;
+- des échantillons ;
+- des informations de personnalisation ;
+- des documents métier.
+
+### Sécurité des données
+
+Ne jamais ajouter dans le dépôt :
+
+- des données clients réelles ;
+- des formulations propriétaires ;
+- des informations confidentielles ;
+- des mots de passe ;
+- des tokens GitHub ;
+- des tokens ngrok ;
+- des clés API ;
+- un fichier `.env` contenant des secrets.
+
+---
 
 ## Installation
 
-Prérequis : Python 3.10+ et [Ollama](https://ollama.com) lancé en local.
-
-### 1. Créer et activer un environnement virtuel
+### 1. Cloner le dépôt
 
 ```bash
-python -m venv .venv
+git clone https://github.com/Hetic-Hackathon-Givaudan-2026-CHARK/equipe10.git
+cd equipe10
 ```
 
-Puis l'activer selon votre terminal :
-
-| Terminal                  | Commande                          |
-|---------------------------|-----------------------------------|
-| Windows PowerShell        | `.venv\Scripts\Activate.ps1`      |
-| Windows cmd               | `.venv\Scripts\activate.bat`      |
-| Git Bash (Windows)        | `source .venv/Scripts/activate`   |
-| macOS / Linux             | `source .venv/bin/activate`       |
-
-Si PowerShell refuse d'exécuter le script d'activation, autorisez-le pour votre
-utilisateur une fois pour toutes :
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-```
-
-Le nom `(.venv)` apparaît alors au début de l'invite. Pour sortir du venv : `deactivate`.
-
-### 2. Installer les dépendances
+### 2. Utiliser la branche V2
 
 ```bash
-pip install -r requirements.txt
+git checkout feature/taste-fragrance-rag
 ```
 
-### 3. Télécharger les modèles Ollama
+Ou :
 
 ```bash
-ollama pull nomic-embed-text   # modèle d'embeddings
-ollama pull qwen2.5:1.5b         # LLM (ou un autre, voir Configuration)
+git switch feature/taste-fragrance-rag
 ```
 
-## Utilisation
+### 3. Installer les dépendances
 
 ```bash
-python ingest.py        # charge story.txt dans la base (chroma_db/)
-python list.py          # affiche le contenu de la base (--full pour le texte complet)
-python clean.py         # vide la base
-python api.py           # lance l'API sur http://127.0.0.1:8000
+python -m pip install -r requirements.txt
 ```
 
-Swagger : http://127.0.0.1:8000/docs
+Si nécessaire :
 
-Pour recharger après modification de l'histoire : `python clean.py` puis `python ingest.py`.
+```bash
+python -m pip install fastapi uvicorn chromadb ollama pandas requests
+```
+
+---
+
+## Vérification du code
+
+```bash
+python -m py_compile api.py
+python -m py_compile config.py
+python -m py_compile ingest.py
+python -m py_compile rag.py
+```
+
+---
+
+## Modèles
+
+Les modèles réellement utilisés doivent être vérifiés dans :
+
+```text
+config.py
+```
+
+Exemple de modèles pouvant être utilisés :
+
+```text
+Embedding model : nomic-embed-text ou qwen3-embedding:4b
+Generation model : qwen2.5:1.5b
+Vector database : ChromaDB
+```
+
+### Démarrer Ollama
+
+```bash
+ollama serve
+```
+
+Dans un autre terminal, télécharger les modèles nécessaires :
+
+```bash
+ollama pull nomic-embed-text
+ollama pull qwen2.5:1.5b
+```
+
+> Adapter les commandes aux modèles déclarés dans `config.py`.
+
+---
+
+## Indexation des documents
+
+Indexer les documents dans la base vectorielle :
+
+```bash
+python ingest.py
+```
+
+Selon l'implémentation du script :
+
+```bash
+python ingest.py givaudan_data.txt
+```
+
+Vérifier les chunks indexés :
+
+```bash
+python list.py
+```
+
+---
+
+## API FastAPI
+
+L'API est disponible dans :
+
+```text
+api.py
+```
+
+### Démarrer l'API
+
+```bash
+uvicorn api:app --host 0.0.0.0 --port 8000
+```
+
+Ou :
+
+```bash
+python -m uvicorn api:app --host 0.0.0.0 --port 8000
+```
+
+### URLs locales
+
+| Ressource | URL |
+|---|---|
+| API | `http://127.0.0.1:8000` |
+| Swagger UI | `http://127.0.0.1:8000/docs` |
+| OpenAPI JSON | `http://127.0.0.1:8000/openapi.json` |
+| Health check | `http://127.0.0.1:8000/health` |
+
+---
 
 ## Endpoints
 
-| Méthode | Route     | Rôle                                                   |
-|---------|-----------|--------------------------------------------------------|
-| GET     | `/health` | Nombre de morceaux en base et modèles utilisés         |
-| POST    | `/search` | Passages retrouvés seulement (sans LLM), pour déboguer |
-| POST    | `/ask`    | Réponse du LLM + passages sources                      |
+### `GET /health`
 
-Corps de requête : `{"question": "Comment s'appelle le cheval de Léo ?", "top_k": 4}`
+Vérifie que l'API est disponible.
 
-## Configuration (variables d'environnement)
+```bash
+curl http://127.0.0.1:8000/health
+```
 
-| Variable      | Défaut              |
-|---------------|---------------------|
-| `LLM_MODEL`   | `qwen2.5:1.5b`        |
-| `EMBED_MODEL` | `nomic-embed-text`  |
-| `OLLAMA_HOST` | `http://localhost:11434` |
-| `CHROMA_DIR`  | `./chroma_db`       |
-| `STORY_PATH`  | `./story.txt`       |
-| `CHUNK_SIZE`  | `800` (caractères)  |
-| `TOP_K`       | `4`                 |
+Exemple de réponse :
 
-Si vous changez `EMBED_MODEL`, relancez `clean.py` puis `ingest.py` : les vecteurs
-de deux modèles différents ne sont pas compatibles.
+```json
+{
+  "status": "ok"
+}
+```
+
+> La structure exacte dépend de l'implémentation de `api.py`.
+
+---
+
+### `POST /search`
+
+Recherche les documents les plus pertinents dans la base vectorielle.
+
+```bash
+curl -X POST "http://127.0.0.1:8000/search" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Je cherche un parfum floral au jasmin.",
+    "top_k": 4
+  }'
+```
+
+Exemple de requête :
+
+```json
+{
+  "query": "Je cherche un parfum floral au jasmin.",
+  "top_k": 4
+}
+```
+
+---
+
+### `POST /ask`
+
+Génère une réponse à partir des documents récupérés.
+
+```bash
+curl -X POST "http://127.0.0.1:8000/ask" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Je cherche un parfum floral et élégant au jasmin.",
+    "top_k": 4
+  }'
+```
+
+Exemple de requête :
+
+```json
+{
+  "question": "Je cherche un parfum floral et élégant au jasmin.",
+  "top_k": 4
+}
+```
+
+Exemple de réponse attendue :
+
+```json
+{
+  "question": "Je cherche un parfum floral et élégant au jasmin.",
+  "answer": "Réponse générée à partir du contexte documentaire.",
+  "sources": [
+    {
+      "metadata": {
+        "title": "Jasmin éclatant",
+        "domain": "fragrance_beauty"
+      }
+    }
+  ]
+}
+```
+
+> Vérifier la structure réelle de chaque endpoint dans Swagger : `/docs`.
+
+---
+
+## Exposer l'API publiquement
+
+Après avoir démarré FastAPI sur le port `8000`, l'API peut être exposée avec ngrok :
+
+```bash
+ngrok http 8000
+```
+
+L'URL publique sera semblable à :
+
+```text
+https://URL_PUBLIQUE.ngrok-free.app
+```
+
+Les liens deviennent alors :
+
+```text
+https://URL_PUBLIQUE.ngrok-free.app/docs
+https://URL_PUBLIQUE.ngrok-free.app/openapi.json
+https://URL_PUBLIQUE.ngrok-free.app/health
+```
+
+> L'URL publique est temporaire. Ajouter la vraie URL dans `docs/links.md` seulement après avoir lancé l'API.
+
+---
+
+## Évaluation
+
+Le jeu de référence est disponible dans :
+
+```text
+evaluation/reference_cases.csv
+```
+
+Il contient **30 cas métier** répartis dans les domaines suivants :
+
+- `fragrance_beauty`
+- `taste_wellbeing`
+- `shared`
+
+### Structure du fichier
+
+```text
+case_id
+domain
+question
+expected_keywords
+```
+
+### Méthode
+
+Pour chaque cas :
+
+1. envoyer la question à l'endpoint `/ask` ;
+2. récupérer la réponse générée ;
+3. récupérer les sources utilisées ;
+4. vérifier les mots-clés attendus ;
+5. mesurer la latence ;
+6. relever les éventuelles erreurs ;
+7. enregistrer les résultats.
+
+Les résultats doivent être sauvegardés dans :
+
+```text
+results/evaluation_v1.csv
+results/evaluation_v2.csv
+results/evaluation_summary.md
+```
+
+---
+
+## Critères d'évaluation
+
+Les critères évalués sont :
+
+- **Exactitude** : la réponse est-elle correcte ?
+- **Pertinence** : répond-elle réellement à la question ?
+- **Factualité** : est-elle soutenue par les sources récupérées ?
+- **Exhaustivité** : contient-elle les informations importantes ?
+- **Robustesse** : résiste-t-elle à différentes formulations ?
+- **Performance** : quelle est la latence de réponse ?
+- **Sécurité** : évite-t-elle les informations inventées ou sensibles ?
+
+---
+
+
+## Repository
+
+- [Dépôt GitHub](https://github.com/Hetic-Hackathon-Givaudan-2026-CHARK/equipe10)
+- [Branche V2](https://github.com/Hetic-Hackathon-Givaudan-2026-CHARK/equipe10/tree/feature/taste-fragrance-rag)
+
+
+incluent notamment l'exactitude, la pertinence, la factualité, la robustesse, la sécurité et la performance.

@@ -1,0 +1,89 @@
+Plateforme de commande intelligente — Dataset synthétique
+
+Chapter 1: client_CL-001
+CLIENT | ID : CL-001. Entreprise : Maison Éclat. Segment : PME. Pays : France. Secteur : Cosmétiques. Langue préférée : fr. Niveau de compte : standard.
+
+Chapter 2: client_CL-002
+CLIENT | ID : CL-002. Entreprise : NutriPeak Foods. Segment : ETI. Pays : France. Secteur : Boissons fonctionnelles. Langue préférée : fr. Niveau de compte : premium.
+
+Chapter 3: client_CL-003
+CLIENT | ID : CL-003. Entreprise : Verde Home Care. Segment : PME. Pays : Italie. Secteur : Produits ménagers. Langue préférée : it. Niveau de compte : standard.
+
+Chapter 4: client_CL-004
+CLIENT | ID : CL-004. Entreprise : Northstar Beverages. Segment : Grand compte. Pays : Allemagne. Secteur : Boissons. Langue préférée : en. Niveau de compte : strategic.
+
+Chapter 5: client_CL-005
+CLIENT | ID : CL-005. Entreprise : Atelier Botanique. Segment : PME. Pays : Belgique. Secteur : Parfumerie. Langue préférée : fr. Niveau de compte : standard.
+
+Chapter 6: product_PR-001
+PRODUIT | ID interne : PR-001. Référence : FRG-101. Nom : Velours Floral. Domaine : Fragrance. Famille sensorielle : Floral. Profil sensoriel : rose, pivoine, musc doux. Application principale : savon. Marchés disponibles : France, Belgique, Allemagne. Statut réglementaire : approved.
+
+Chapter 7: product_PR-002
+PRODUIT | ID interne : PR-002. Référence : FRG-102. Nom : Bois Santal Clair. Domaine : Fragrance. Famille sensorielle : Boisé. Profil sensoriel : santal, cèdre, ambre doux. Application principale : gel douche. Marchés disponibles : France, Belgique, Allemagne, Italie. Statut réglementaire : approved.
+
+Chapter 8: product_PR-003
+PRODUIT | ID interne : PR-003. Référence : FRG-103. Nom : Éclat Agrumes. Domaine : Fragrance. Famille sensorielle : Frais. Profil sensoriel : bergamote, citron, mandarine. Application principale : savon. Marchés disponibles : France, Belgique, Allemagne, Italie. Statut réglementaire : approved.
+
+Chapter 9: product_PR-004
+PRODUIT | ID interne : PR-004. Référence : FRG-104. Nom : Amande Réconfort. Domaine : Fragrance. Famille sensorielle : Gourmand. Profil sensoriel : amande, tonka, vanille légère. Application principale : savon premium. Marchés disponibles : France, Belgique, Italie. Statut réglementaire : approved.
+
+Chapter 10: product_PR-005
+PRODUIT | ID interne : PR-005. Référence : FLV-201. Nom : Mangue Passion. Domaine : Flavor. Famille sensorielle : Fruité. Profil sensoriel : mangue mûre, fruit de la passion, note tropicale. Application principale : boisson protéinée. Marchés disponibles : France, Allemagne, Pays-Bas. Statut réglementaire : approved.
+
+Chapter 11: product_PR-006
+PRODUIT | ID interne : PR-006. Référence : FLV-202. Nom : Citron Gingembre. Domaine : Flavor. Famille sensorielle : Frais. Profil sensoriel : citron, gingembre, fraîcheur persistante. Application principale : boisson fonctionnelle. Marchés disponibles : France, Allemagne, Pays-Bas, Belgique. Statut réglementaire : approved.
+
+Chapter 12: product_PR-007
+PRODUIT | ID interne : PR-007. Référence : FLV-203. Nom : Vanille Amande. Domaine : Flavor. Famille sensorielle : Gourmand. Profil sensoriel : vanille crémeuse, amande, biscuit. Application principale : shake protéiné. Marchés disponibles : France, Belgique. Statut réglementaire : restricted.
+
+Chapter 13: product_PR-008
+PRODUIT | ID interne : PR-008. Référence : FLV-204. Nom : Fruits Rouges Vifs. Domaine : Flavor. Famille sensorielle : Fruité. Profil sensoriel : fraise, framboise, cassis. Application principale : boisson énergétique. Marchés disponibles : France, Allemagne, Pays-Bas, Belgique. Statut réglementaire : approved.
+
+Chapter 14: raw_material_RM-001
+MATIÈRE PREMIÈRE | ID interne : RM-001. Référence : RM-FL-001. Nom : Extrait de rose. Type : Extrait naturel. Origine : France. Profil sensoriel : floral, rosé, élégant. Allergène : oui. Note réglementaire : Déclaration allergènes à vérifier. Statut : approved.
+
+Chapter 15: raw_material_RM-002
+MATIÈRE PREMIÈRE | ID interne : RM-002. Référence : RM-WD-001. Nom : Essence de cèdre. Type : Extrait naturel. Origine : États-Unis. Profil sensoriel : boisé, sec, chaleureux. Allergène : non. Note réglementaire : Utilisation selon le dosage autorisé. Statut : approved.
+
+Chapter 16: raw_material_RM-003
+MATIÈRE PREMIÈRE | ID interne : RM-003. Référence : RM-FR-001. Nom : Huile de bergamote. Type : Extrait naturel. Origine : Italie. Profil sensoriel : agrumes, frais, zesté. Allergène : oui. Note réglementaire : Contrôle de phototoxicité requis. Statut : restricted.
+
+Chapter 17: raw_material_RM-004
+MATIÈRE PREMIÈRE | ID interne : RM-004. Référence : RM-FT-001. Nom : Arôme mangue. Type : Arôme nature-identique. Origine : Brésil. Profil sensoriel : fruité, tropical, mûr. Allergène : non. Note réglementaire : Conforme au marché européen. Statut : approved.
+
+Chapter 18: raw_material_RM-005
+MATIÈRE PREMIÈRE | ID interne : RM-005. Référence : RM-FT-002. Nom : Arôme fruit de la passion. Type : Arôme nature-identique. Origine : Pérou. Profil sensoriel : fruité, acidulé, tropical. Allergène : non. Note réglementaire : Conforme au marché européen. Statut : approved.
+
+Chapter 19: raw_material_RM-006
+MATIÈRE PREMIÈRE | ID interne : RM-006. Référence : RM-FR-002. Nom : Extrait de gingembre. Type : Extrait naturel. Origine : Inde. Profil sensoriel : épicé, frais, citronné. Allergène : non. Note réglementaire : Stabilité à vérifier dans les boissons. Statut : approved.
+
+Chapter 20: order_ORD-2024-001
+COMMANDE | ID : ORD-2024-001. Client : Maison Éclat (CL-001). Date de commande : 2024-02-15. Type : sample. Statut : delivered. Montant : 180 EUR. Livraison prévue ou réalisée : 2024-02-28. Produit : FRG-101 — Velours Floral (PR-001). Quantité : 5 kg. Application : savon. Brief client : senteur florale premium, propre et légèrement musquée.
+
+Chapter 21: order_ORD-2024-002
+COMMANDE | ID : ORD-2024-002. Client : NutriPeak Foods (CL-002). Date de commande : 2024-03-10. Type : pilot. Statut : delivered. Montant : 4200 EUR. Livraison prévue ou réalisée : 2024-04-03. Produit : FLV-201 — Mangue Passion (PR-005). Quantité : 25 kg. Application : boisson protéinée. Brief client : mangue passion, faible acidité et compatible avec une base protéinée.
+
+Chapter 22: order_ORD-2024-003
+COMMANDE | ID : ORD-2024-003. Client : Northstar Beverages (CL-004). Date de commande : 2024-06-22. Type : reorder. Statut : delivered. Montant : 18500 EUR. Livraison prévue ou réalisée : 2024-07-12. Produit : FRG-102 — Bois Santal Clair (PR-002). Quantité : 120 kg. Application : gel douche. Brief client : profil boisé élégant, plus doux que la version précédente.
+
+Chapter 23: order_ORD-2025-001
+COMMANDE | ID : ORD-2025-001. Client : Maison Éclat (CL-001). Date de commande : 2025-01-17. Type : reorder. Statut : delivered. Montant : 2600 EUR. Livraison prévue ou réalisée : 2025-02-08. Produit : FRG-101 — Velours Floral (PR-001). Quantité : 18 kg. Application : savon. Brief client : même profil que la commande précédente.
+
+Chapter 24: order_ORD-2025-002
+COMMANDE | ID : ORD-2025-002. Client : NutriPeak Foods (CL-002). Date de commande : 2025-02-11. Type : reorder. Statut : delivered. Montant : 8700 EUR. Livraison prévue ou réalisée : 2025-03-04. Produit : FLV-201 — Mangue Passion (PR-005). Quantité : 60 kg. Application : boisson protéinée. Brief client : plus fruité, moins acide et stable dans une boisson protéinée.
+
+Chapter 25: order_ORD-2025-003
+COMMANDE | ID : ORD-2025-003. Client : Atelier Botanique (CL-005). Date de commande : 2025-05-19. Type : sample. Statut : in_transit. Montant : 240 EUR. Livraison prévue ou réalisée : 2025-06-02. Produit : FRG-104 — Amande Réconfort (PR-004). Quantité : 3 kg. Application : savon premium. Brief client : amande douce, chaude, naturelle et peu sucrée.
+
+Chapter 26: order_ORD-2025-004
+COMMANDE | ID : ORD-2025-004. Client : Northstar Beverages (CL-004). Date de commande : 2025-09-14. Type : reorder. Statut : confirmed. Montant : 22400 EUR. Livraison prévue ou réalisée : 2025-10-10. Produit : FRG-102 — Bois Santal Clair (PR-002). Quantité : 180 kg. Application : gel douche. Brief client : same as previous order, slightly fresher.
+
+Chapter 27: sample_SMP-001
+ÉCHANTILLON | ID : SMP-001. Client : Maison Éclat (CL-001). Date de demande : 2024-02-05. Produit : FRG-101 — Velours Floral (PR-001). Quantité : 5 kg. Brief : senteur premium pour une gamme de savons artisanaux. Statut : delivered. Potentiel commercial : medium.
+
+Chapter 28: sample_SMP-002
+ÉCHANTILLON | ID : SMP-002. Client : NutriPeak Foods (CL-002). Date de demande : 2024-02-25. Produit : FLV-201 — Mangue Passion (PR-005). Quantité : 2 kg. Brief : mangue passion, faible acidité, compatible avec une base protéinée. Statut : converted. Potentiel commercial : high.
+
+Chapter 29: sample_SMP-003
+ÉCHANTILLON | ID : SMP-003. Client : Atelier Botanique (CL-005). Date de demande : 2025-05-12. Produit : FRG-104 — Amande Réconfort (PR-004). Quantité : 3 kg. Brief : profil amande chaud, naturel et non trop sucré. Statut : in_transit. Potentiel commercial : medium.
+
